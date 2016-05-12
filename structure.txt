@@ -8,9 +8,8 @@ On Thue numbers
 	3.1 Proof outline (~1,5p)
 	3.2 Elements of the proof
 		3.2.1 AE3SAT (~1p)
-		3.2.2 The 'Restricted Thue number' problem (~3p)
 		3.2.3 Coloring of the gadgets (~3p)
-		3.2.4 Constructing the graph H (~2p)
+		3.2.4 Constructing the graph H (~5p)
 	3.3 Reducing to AE3SAT with H (~4p)
 4. Related problems (whatever is left, possible problems: is there a k-coloring for any planar graph? (tree example), Thue thresholds, subdivided graphs)
 5. Conclusion (~1p)
