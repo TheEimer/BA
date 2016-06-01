@@ -1,0 +1,177 @@
+	\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{wrapfig}
+\usepackage{caption, subcaption}
+\usepackage[style=ieee, backend=bibtex, natbib=true]{biblatex}
+\usepackage{standalone}
+\author{Theresa Eimer}
+\title{On Thue Numbers}
+\date{}
+\bibliography{library.bib}
+\begin{document}
+\renewcommand{\figurename}{Fig.}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+
+\section{Introduction}
+\section{Preliminaries}
+\subsection{Graph Theory}
+
+A \textit{graph} G is defined as two sets V and E, representing the vertices and edges of G respectively, so that E is a subset of $ V ^ 2$, meaning that each edge from E connects two vertices from V \citep{Bollobas1998}. This is denoted as G = (V, E). In this thesis, any graph G will refer to an undirected and unweighted graph unless mentioned otherwise. Thus, edges can be traversed in both directions. Furthermore, all graphs will be simple graphs, not containing multi-edges (more than one edge from a vertex $v_i$ to a vertex $v_j$) or loops (edges starting from and ending at the same vertex) \citep{Gross2013}. 
+\newline
+\newline
+A graph G' = (V', E') is called a \textit{subgraph} of G if it's part of G, that is if V' is a subset of V and E' is a subset of V \citep{Bollobas1998}.
+\newline
+\newline
+Two vertices $v_i$ and $v_j$ are \textit{adjacent}, if there is an edge $e_k$ that connects the two. Two edges are adjacent if they share a vertex \citep{Bollobas1998}. 
+\newline
+\newline
+A \textit{path} (sometimes called walk) in a graph is a sequence of the form 
+\begin{center}
+	$ W = v_0 e_0 v_1 e_1...e_{n-1} v_n $
+\end{center}
+where, starting from an initial vertex $v_0$, vertices and edges alternate until the final vertex $v_n$ is reached. In a simple graph, a path can also be represented by either just its verteces \citep{Gross2013} or edges \citep{Bollobas1998}. The length l of a path is the number of edges it contains \citep{Gross2013}.
+\newline
+\newline
+For the problems in this thesis, a certain kind of path, the \textit{open path}, is especially important. Open means that no vertex is visited more than once, thus cycles on the path are not possible (see 'trail' in \citep{Gross2013}). An open path through every vertex is called a \textit{Hamiltonian path}.
+\newline
+\newline
+The verteces and edges of Graphs can be colored. Here, \textit{edge-coloring} will be used. An edge-coloring of a graph G is a function that matches each edge to a color contained in C, the set of colors \citep{Gross2013}. 
+\newpage
+\begin{wrapfigure}{r}{4cm}
+	\includestandalone{pics/clique}
+	\caption{8-Clique}
+\end{wrapfigure}
+\par There are some special graph structures that will become important later on: the \textit{Clique} and the \textit{Hypercube}. A Clique is a subgraph of a graph G, in which every two vertices $v_i$, $v_j$ are adjacent (see figure 1) \citep{Gross2013}. A Clique containing k vertices is denoted as $k-Clique$ \citep{Bollobas1998}. 
+\newline
+\newline
+A Hypercube is an n-dimensional Graph (denoted n-Hypercube) that can be constructed by labeling a set of vertices of size $2^n$ with a different element of ${0, 1}^n$ each and connecting the vertices that differ in one position (see figure 2) \citep{Bollobas1998}. If $n > 1$, the construction of the (n+1)-Hypercube consist of essentially to n-Hypercubes being connected (see figure 3). Both for the Hypercube and Clique, the number of edges connected to a vertex is the same for all vertices, e.g. 7 for a 8-Clique or 4 for a 4-Hypercube.
+\newline
+
+\par
+\begin{figure}[h]
+\begin{minipage}{.3\textwidth}
+	\includestandalone{pics/hypercube_small}
+	\captionof{figure}{3-Hypercube}
+\end{minipage}
+\begin{minipage}{.5\textwidth}
+	\includestandalone{pics/hypercube_big}
+	\centering
+	\captionsetup[figure]{oneside,margin={2cm,0cm}}
+	\captionof{figure}{4-Hypercube constructed out of two 3-Hypercubes}
+	 	
+\end{minipage}
+\end{figure}
+
+\newpage
+\subsection{Complexity Theory}
+
+To discuss the complexity of the following problems, some background in complexity theory, specifically the \textit{Polynomial Hierarchy}, will be needed. First, however, \textit{P} and \textit{NP}, two specific complexity classes within the hierarchy will be introduced.
+\newline
+P and NP similarly defined using Turing machines. P contains all problems that can be solved in polynomial time, that means all problems a Deterministic Turing Machine can decide in p(x) computational steps, p(n) being any polynomial and x the length of the input. The problems in NP can be solved in polynomial time by a Non-deterministic Turing Machine, the definition is analogous \citep{Davis1983}.
+\newline
+The levels of the Polynomial Hierarchy contain three complexity classes each: $\Sigma^p_i, \Delta^p_i$ and $\Pi^p_i$ \citep{Meyer1972}. At level 0, that is i = 0, all three of them are equal and P: 
+\begin{center}
+	$\Sigma^p_0 = \Delta^p_0 = \Pi^p_0 = P $ \citep{Stockmeyer1976}
+\end{center}  
+The further levels are recursively defined using \textit{oracles}. If a Turing Machine can use an oracle, it means that in a single computational step, a L oracle will decide if a string on the Turing Machine's tape is contained in L. With that in mind, the definitions go as follows:
+\newline
+\newline
+	$\Sigma^p_{i+1} = \{$ L | L is accepted by a Non-deterministic Turing Machine with a L' oracle for some L' $\epsilon \Sigma^p_i\}$
+\newline
+\newline
+	$\Pi^p_{i+1} = \{$ L | the complement of L is accepted by a Non-deterministic Turing Machine with a L' oracle for some L' $\epsilon \Sigma^p_i\}$
+\newline
+\newline
+	$\Delta^p_{i+1} = \{$ L | L is accepted by a Deterministic Turing Machine with a L' oracle for some L' $\epsilon \Sigma^p_i\}$
+\newline 
+\newline
+P and NP are of course included here, $\Delta^p_1 = P$ and $\Sigma^p_1 = NP$ \citep{Meyer1972}. $\Pi^p_1 $ is called co-NP.
+\newline
+$\Sigma^p_i$, $\Pi^p_i$ and $\Delta^p_i$ are related in the following way:
+\begin{center}
+	$\Sigma^p_i \cup \Pi^p_i \subseteq \Delta^p_{i+1} \subseteq \Sigma^p_{i+1} \cap \Pi^p_{i+1}$
+\end{center}
+It's not yet decided if these inclusions are proper, but they give an idea of what the Polynomial Hierarchy looks like \citep{Stockmeyer1976}.
+\newline
+One possible way to decide which complexity class a problem belongs to, is the reduction from a problem with known complexity. Let L and Q be two languages, then Q is reducible to L if there is a function f(n) that runs in polynomial time so that for any x in Q, f(x) is in L. This is written as $Q \leq_p L$. If such a function exists, L is at least as complex as Q \citep{Davis1983}. 
+\newline
+Three problems that will be reduced from later on in this thesis are SAT, 3SAT and $\forall \exists$3SAT. The later two are special cases of SAT, the boolean satisfiability problem. SAT is the language containing all boolean formulars in conjunctive normal form that are satisfiable. SAT is in NP and in fact NP-hard, meaning that every problem in NP can be reduced to SAT. Both of those attributes combined make it NP-hard. 3SAT is a subset of SAT with all fomulars with 3 or less literals per clause and is also NP-hard. $\forall \exists$3SAT finally is the satisfiability problem for formulas $\varphi$ with 3 or less literals per clause that are of the form $\forall (x_1, ..., x_i) \exists (y_1, ..., y_j) \varphi(x_1, ..., x_i, y_1, ..., y_j)$ \citep{Schaefer2002}.
+
+\newpage
+\section{Nonrepetitive graph colorings}
+\subsection{Nonrepetitiveness}
+To talk about Thue numbers, a different concept is needed first: non-repetitiveness. Nonrepetitive here means square-free. The concept can be applied to different fields like graph theory, geometry or number theory \citep{Grytczuk2008}, but it was first introducted in the process of constructing a square-free word by Axel Thue. A word w is square-free if there is no part x of the word that occurs two times in a row. Let the words a and b consist of three different substrings, v, x and y, then w = vxxy is not square-free, but b = vxy is \citep{Thue1906}.
+\newline
+In graph theory, nonrepetitiveness is relevant with respect to nonrepetitive vertex- \citep{Marx2009} and edge-colorings of graphs. A coloring e of a graph G is nonrepetitive, if there is no open path whose vertex or edge colors contain a color sequence x that is repeated two or more times in a row, similar to the definition of nonrepetitiveness for words. To put it differently: a coloring of a graph is nonrepetitive if the coloring of every possible open path on the graph is nonrepetitive \citep{Alon2002}.
+\subsection{The complexity of nonrepetitive vertex-colorings}
+The problem of deciding whether a vertex-coloring of a graph G(V, E) is nonrepetitive has been proven to be coNP-complete by reducing from the Hamiltonian path problem which is NP-complete. The idea behind Marx's and Schäfer's proof \citep{Marx2009a} is to construct a graph H from G with two parts, the second one having a path for every possible path in G that is as long a Hamiltonian path would be (n vertices with n = |E|) and the first part representing the vertices of G with a subgraph each. H is colored in such a way that a repetitively colored path would have to go through both parts with the coloring from the first path repeating itself in the second path. If a path through the second half og H, however, corresponds to a path in G that is not a Hamiltonian path but a path that visits at least one vertex more than once, the subgraph for that vertex in the first half of H would have to also be visited once - but that would mean that the path throught the first half is not an open path. Thus H is colored nonrepetitively if G doesn't have a Hamiltonian path.
+\newline
+\begin{wrapfigure}[5]{l}{3cm}
+	\includestandalone{pics/k}
+	\caption{A $K_{2,3}$ Graph}
+\end{wrapfigure}
+The construction of H goes as follows: for the first part, for every vertex $i \leq n$ (n = |E|) of G, a $K_{2, n}$ (fig. 4) is added. It consists of two vertices, colored a and b respectively, with n vertices between them, each connected to both the a- and b-vertex. As one vertex is added for each vertex in G, the vertices are colored $c_{i,j}$, i being the vertex in G for which the subgraph was added and j ranging from 1 to n. The b-colored vertices are now connected to the a middle vertex, z, colored with c. Lastly, to connect the different subgraphs, for every b-vertex, $d_{i,j}$-colored vertices are added. A $d_{i, j}$ vertex is connected to the b-vertex of the subgraph wih the same value for i and all a-vertices for j between 1 and n where $j \neg i$.  So now all a and b vertices are connected to all other $K_{2,n}$ subgraphs of the first part of H.
+\newline
+\begin{figure}[h]
+\begin{minipage}{0.2\linewidth}
+	\includestandalone{pics/ex_1}
+	\caption{\\Graph F}
+\end{minipage}
+\begin{minipage}{0.8\linewidth}
+	\includestandalone{pics/ex_con}
+	\caption{The first part of H constructed for F; \\The marked edges are connected to a $d_{i,j}$-colored vertex}
+\end{minipage}
+\end{figure}
+\newline
+ For the second part, for every combination of i and j ($1 \leq i, j \leq n$), a path containing three vertices colored a, $c_{i,j}$ and b respectively are added to H. Where j = 1, the a-colored vertex is connected to the middle vertex c. Between the b-colored vertices for j = 1 and the a-colored vertices for j = 2, $d_{i,j}$-colored vertices are added. i here is the same as in three vertex path to which the new vertex becomes connected via the b-vertex, j the number of every vertex the i-th vertex in G is connected to by an edge in E. Those d-colored vertices are then connected to the a-vertex of the three vertices path corresponding to the j value in their color. This way, the connections in G are mimiked in the structure of H. This is repeated for every j until all the three vertex subgraphs have been connected. The last step is to connect the b-vertices of the paths where j = n to a c-colored end vertex z'. 
+\begin{figure}[h]
+	\includestandalone{pics/ex_complete}
+	\caption{The whole of H constructed for F \\ Edges connected to vertices colored $d_{i,j}$ are marked}
+\end{figure}
+\newpage
+Now H has a first path that is heavily connected and allows any path through the graph to be traced through the coloring, a vertex of a different color separating the two halves, and a second part whose connections are dependent on the edges of G. In the first and second path, a and b are the only non-unique colors and they are never adjacent, so a repetitive path has run through both parts, that means it needs to pass the c-colored vertex z, and because of this also needs to reach the end vertex as it is the only other vertex colored with c. The only possible square path would look like this w = QzQ'z' with Q and Q' and of course z and z' having the same coloring. This is only possible if G has a Hamiltonian path, because then there is a path through the second half of H that doesn't visit any two vertices with the same value for i. The coloring of this path can simply be copied for a path through the first part, this is the coloring w from above. If G doesn't have a Hamiltonian path, there is no path through the second part of H without having to visit two different vertices with the same value for i, but to get the same coloring for the first part the path there would have to pass through one of the $K_{2,n}$ subgraphs twice and therefore it is not an open path. F is an example of a graph with a Hamiltonian path and therefore it will not be possible to find a path of the form w = QzQ'z', the example below from Marx's and Schäfer's paper, however, does contain a square path. The graph it's based on is F'.
+\begin{figure}[h]
+	\includestandalone{pics/ex_2}
+	\caption{F'}
+\end{figure}
+\subsection{The complexity of nonrepetitive edge-colorings}
+
+The corresponding problem for edge-colorings is in the same complexity class and the proof is somewhat similar, they are however not directly related and one can't be infered from the other \citep{Marx2009a}. The reason Manin's proof \citep{Manin2008} might seem familiar is that it's also based on the idea of a path with two parts that are colored identically to form the only possible repetitive colored path. The problem he reduces from is 3SAT, corresponding which a graph G is constructed. G has a so called snout, a sequence of vertices and edges with the sole purpose of providing the colors for the second part to mimic. The second part of G then consist of a variable gadget for each variable that splits into a positive and negative path variant and a clause gadget for each clause. The clause gadgets are connected to the variable gadgets in the same way the variables occur in the clause; if a variable is negated, the clause gadget is connected to a vertex in the negative path of the variable gadget, if it isn't, the clause gadget is connected to the positive path. As a result, the only way to pass through the second half of G with an open path, is find an assignment satisfying the formula, traversing the variable gadgets opposite to that assignment and then the clause gadgets corresponding to it. If there is no satisfying assignment, at least one of the edges from the clause gadgets will need to pass through a vertex in the varible gadget that has already been visited. Thus a coloring in G is only repetitive if the 3SAT problem it's constructed from is satisfiable - and nonrepetitive if it isn't.
+
+\newpage
+
+\section{The graphical Thue Number}
+\subsection{Definition of Thue Numbers}
+\subsection{Constructing the graph for Manin's proof}
+\subsubsection{Structure}
+
+Explaining snout, variable gadgets and clause gadgets
+
+\subsubsection{Subgraphs}
+
+C-, N-, P-Gadgets and 7-Hypercubes
+
+\subsubsection{Coloring}
+\subsection{Reduction to $ \forall \exists 3SAT $}
+\section{Further problems}
+
+Tree colorings
+\newline
+Thue number bounds depending on the degree
+
+\section{Conclusion}
+\printbibliography
+
+\end{document}

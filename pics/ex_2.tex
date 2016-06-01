@@ -1,0 +1,19 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\begin{document}
+	\begin{tikzpicture}
+	
+		\node[draw,circle,inner sep=0.05cm, fill] at (0,0) (1) {};
+		\node[draw,circle,inner sep=0.05cm, fill] at (-1,1) (2) {};
+		\node[draw,circle,inner sep=0.05cm, fill] at (0,2) (3) {};
+		\node[draw,circle,inner sep=0.05cm, fill] at (1,1) (4) {};		
+		
+		\path (1)
+		edge (2)
+		edge (3)
+		edge (4)
+		(3)
+		edge (2)
+		edge (4);
+	\end{tikzpicture}
+\end{document}
