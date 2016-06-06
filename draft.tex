@@ -28,35 +28,35 @@
 \section{Preliminaries}
 \subsection{Graph Theory}
 
-A \textit{graph} G is defined as two sets V and E, representing the vertices and edges of G respectively, so that E is a subset of $ V ^ 2$, meaning that each edge from E connects two vertices from V \citep{Bollobas1998}. This is denoted as G = (V, E). In this thesis, any graph G will refer to an undirected and unweighted graph unless mentioned otherwise. Thus, edges can be traversed in both directions. Furthermore, all graphs will be simple graphs, not containing multi-edges (more than one edge from a vertex $v_i$ to a vertex $v_j$) or loops (edges starting from and ending at the same vertex) \citep{Gross2013}. 
+A \textit{graph} G is defined as two, for the purpose of this thesis, finite sets V and E, representing the vertices and edges of G respectively, so that E is a subset of $ V ^ 2$, meaning that each edge from E connects two vertices from V \citep[p. 1]{Bollobas1998}. This is denoted as G = (V, E). Hereafter, any graph G will refer to an undirected and unweighted graph unless mentioned otherwise. Thus, edges can be traversed in both directions. Furthermore, all graphs will be simple graphs, not containing multi-edges (more than one edge from a vertex $v_i$ to another vertex $v_j$) or loops (edges starting from and ending at the same vertex) \citep[pp. 3-4]{Gross2013}. 
 \newline
 \newline
-A graph G' = (V', E') is called a \textit{subgraph} of G if it's part of G, that is if V' is a subset of V and E' is a subset of V \citep{Bollobas1998}.
+A graph G' = (V', E') is called a \textit{subgraph} of G if it's part of G, that is, if V' is a subset of V and E' is a subset of V \citep[p. 2]{Bollobas1998}.
 \newline
 \newline
-Two vertices $v_i$ and $v_j$ are \textit{adjacent}, if there is an edge $e_k$ that connects the two. Two edges are adjacent if they share a vertex \citep{Bollobas1998}. 
+Two vertices $v_i$ and $v_j$ are \textit{adjacent}, if there is an edge $e_k$ that connects the two. Two edges are adjacent if they share one vertex \citep[p. 1-2]{Bollobas1998}. 
 \newline
 \newline
 A \textit{path} (sometimes called walk) in a graph is a sequence of the form 
 \begin{center}
 	$ W = v_0 e_0 v_1 e_1...e_{n-1} v_n $
 \end{center}
-where, starting from an initial vertex $v_0$, vertices and edges alternate until the final vertex $v_n$ is reached. In a simple graph, a path can also be represented by either just its verteces \citep{Gross2013} or edges \citep{Bollobas1998}. The length l of a path is the number of edges it contains \citep{Gross2013}.
+where, starting from an initial vertex $v_0$, vertices and edges alternate until the final vertex $v_n$ is reached. In a simple graph, a path can also be represented by either just its vertices \citep[p. 10]{Gross2013} or edges \citep[p. 4]{Bollobas1998}. The length l of a path is the number of edges it contains \citep[p. 5]{Bollobas1998}.
 \newline
 \newline
-For the problems in this thesis, a certain kind of path, the \textit{open path}, is especially important. Open means that no vertex is visited more than once, thus cycles on the path are not possible (see 'trail' in \citep{Gross2013}). An open path through every vertex is called a \textit{Hamiltonian path}.
+For the problems in this thesis, a certain kind of path, the \textit{open path}, is especially important. Open means that no vertex is visited more than once, thus cycles on the path are not possible (see 'trail' in \citep[p. 10]{Gross2013}). An open path through every vertex is called a \textit{Hamiltonian path} \citep[p. 14]{Bollobas1998}.
 \newline
 \newline
-The verteces and edges of Graphs can be colored. Here, \textit{edge-coloring} will be used. An edge-coloring of a graph G is a function that matches each edge to a color contained in C, the set of colors \citep{Gross2013}. 
+The vertices and edges of Graphs can be colored. An edge-coloring of a graph G is a function that matches each edge to a color contained in C, the set of colors.  A vertex-coloring is a function matching the vertices instead of the edges to the colors in C \citep[pp. 7-8]{Gross2013}. 
 \newpage
 \begin{wrapfigure}{r}{4cm}
 	\includestandalone{pics/clique}
 	\caption{8-Clique}
 \end{wrapfigure}
-\par There are some special graph structures that will become important later on: the \textit{Clique} and the \textit{Hypercube}. A Clique is a subgraph of a graph G, in which every two vertices $v_i$, $v_j$ are adjacent (see figure 1) \citep{Gross2013}. A Clique containing k vertices is denoted as $k-Clique$ \citep{Bollobas1998}. 
+\par There are some special graph structures that will become important later on: the \textit{Clique} and the \textit{Hypercube}. A Clique is a subgraph of a graph G, in which every two vertices $v_i$, $v_j$ are adjacent (see figure 1).  A Clique containing k vertices is denoted as $k-Clique$ \citep[pp. 21, 111]{Gross2013}.
 \newline
 \newline
-A Hypercube is an n-dimensional Graph (denoted n-Hypercube) that can be constructed by labeling a set of vertices of size $2^n$ with a different element of ${0, 1}^n$ each and connecting the vertices that differ in one position (see figure 2) \citep{Bollobas1998}. If $n > 1$, the construction of the (n+1)-Hypercube consist of essentially to n-Hypercubes being connected (see figure 3). Both for the Hypercube and Clique, the number of edges connected to a vertex is the same for all vertices, e.g. 7 for a 8-Clique or 4 for a 4-Hypercube.
+A Hypercube is an n-dimensional Graph (denoted n-Hypercube) that can be constructed by labeling a set of vertices of size $2^n$ with a different element of ${0, 1}^n$ each and connecting the vertices that differ in one position (see figure 2) \citep[p. 60]{Bollobas1998}. If $n > 1$, the construction of the (n+1)-Hypercube consist of essentially to n-Hypercubes being connected (see figure 3). Both for the Hypercube and Clique, the number of edges connected to a vertex is the same for all vertices, e.g. 7 for a 8-Clique or 4 for a 4-Hypercube.
 \newline
 
 \par
@@ -112,13 +112,13 @@ Three problems that will be reduced from later on in this thesis are SAT, 3SAT a
 \newpage
 \section{Nonrepetitive graph colorings}
 \subsection{Nonrepetitiveness}
-To talk about Thue numbers, a different concept is needed first: non-repetitiveness. Nonrepetitive here means square-free. The concept can be applied to different fields like graph theory, geometry or number theory \citep{Grytczuk2008}, but it was first introducted in the process of constructing a square-free word by Axel Thue. A word w is square-free if there is no part x of the word that occurs two times in a row. Let the words a and b consist of three different substrings, v, x and y, then w = vxxy is not square-free, but b = vxy is \citep{Thue1906}.
+Before talking about Thue number type problems, it makes sense to look non-repetitiveness first, as it is the defining concept behind the  Thue number. Nonrepetitive here means square-free. This can be applied to different fields like graph theory, geometry or number theory \citep{Grytczuk2008}, but it was first introducted in the process of constructing a square-free word by Axel Thue in 1906. A word w is square-free if there is no part x of the word that occurs two times in a row. Let the words a and b consist of three different substrings, v, x and y, then a = vxxy is not square-free, but b = vxy is \citep{Thue1906}.
 \newline
-In graph theory, nonrepetitiveness is relevant with respect to nonrepetitive vertex- \citep{Marx2009} and edge-colorings of graphs. A coloring e of a graph G is nonrepetitive, if there is no open path whose vertex or edge colors contain a color sequence x that is repeated two or more times in a row, similar to the definition of nonrepetitiveness for words. To put it differently: a coloring of a graph is nonrepetitive if the coloring of every possible open path on the graph is nonrepetitive \citep{Alon2002}.
+In graph theory, nonrepetitiveness is relevant with respect to nonrepetitive vertex- \citep{Marx2009} and edge-colorings of graphs. A coloring e of a graph G is nonrepetitive, if there is no open path whose vertex or edge colors contain a color sequence x that is repeated two or more times in a row, similar to the definition of nonrepetitiveness for words. To put it differently: a coloring of a graph is nonrepetitive if the coloring of every possible open path on the graph is nonrepetitive \citep{Alon2002}. To give a baseline for the complexity of further problems concerning nonrepetitive graph colorings, first the complexity of determining whether a vertex- or edge coloring is nonrepetitive will be shown.
 \subsection{The complexity of nonrepetitive vertex-colorings}
-The problem of deciding whether a vertex-coloring of a graph G(V, E) is nonrepetitive has been proven to be coNP-complete by reducing from the Hamiltonian path problem which is NP-complete. The idea behind Marx's and Schäfer's proof \citep{Marx2009a} is to construct a graph H from G with two parts, the second one having a path for every possible path in G that is as long a Hamiltonian path would be (n vertices with n = |E|) and the first part representing the vertices of G with a subgraph each. H is colored in such a way that a repetitively colored path would have to go through both parts with the coloring from the first path repeating itself in the second path. If a path through the second half og H, however, corresponds to a path in G that is not a Hamiltonian path but a path that visits at least one vertex more than once, the subgraph for that vertex in the first half of H would have to also be visited once - but that would mean that the path throught the first half is not an open path. Thus H is colored nonrepetitively if G doesn't have a Hamiltonian path.
+The problem of deciding whether a vertex-coloring of a graph G(V, E) is nonrepetitive has been proven to be coNP-complete by reducing from the Hamiltonian path problem which is NP-complete. The idea behind Marx's and Schäfer's proof \citep{Marx2009a} is to construct a graph H from G with two parts, the second one having a path for every possible path in G that is as long a Hamiltonian path would be (n vertices with n = |E|), and the first part representing the vertices of G with a subgraph each. H is colored in such a way that a repetitively colored path would have to go through both parts with the coloring from the first path repeating itself in the second path. If a path through the second half of H, however, corresponds to a path in G that is not a Hamiltonian path but a path that visits at least one vertex more than once, the subgraph for that vertex in the first half of H would have to also be visited more than once - but that would mean that the path throught the first half is not an open path. Thus H is colored nonrepetitively if G doesn't have a Hamiltonian path.
 \newline
-\begin{wrapfigure}[5]{l}{3cm}
+\begin{wrapfigure}[8]{l}{3cm}
 	\includestandalone{pics/k}
 	\caption{A $K_{2,3}$ Graph}
 \end{wrapfigure}
@@ -149,6 +149,12 @@ Now H has a first path that is heavily connected and allows any path through the
 \subsection{The complexity of nonrepetitive edge-colorings}
 
 The corresponding problem for edge-colorings is in the same complexity class and the proof is somewhat similar, they are however not directly related and one can't be infered from the other \citep{Marx2009a}. The reason Manin's proof \citep{Manin2008} might seem familiar is that it's also based on the idea of a path with two parts that are colored identically to form the only possible repetitive colored path. The problem he reduces from is 3SAT, corresponding which a graph G is constructed. G has a so called snout, a sequence of vertices and edges with the sole purpose of providing the colors for the second part to mimic. The second part of G then consist of a variable gadget for each variable that splits into a positive and negative path variant and a clause gadget for each clause. The clause gadgets are connected to the variable gadgets in the same way the variables occur in the clause; if a variable is negated, the clause gadget is connected to a vertex in the negative path of the variable gadget, if it isn't, the clause gadget is connected to the positive path. As a result, the only way to pass through the second half of G with an open path, is find an assignment satisfying the formula, traversing the variable gadgets opposite to that assignment and then the clause gadgets corresponding to it. If there is no satisfying assignment, at least one of the edges from the clause gadgets will need to pass through a vertex in the varible gadget that has already been visited. Thus a coloring in G is only repetitive if the 3SAT problem it's constructed from is satisfiable - and nonrepetitive if it isn't.
+\newline
+To construct H, a few numbers from the 3SAT problem f are needed. Let M be the maximum of the  number of instances of all variables, meaning the number of instances of the most common variable with x and and $\neg x$ being counted seperately, n the number of variables and m the number of clauses in f. Then first, n variable gadgets with the follwing structure are added: each variable gadget begins with a vertex $b_i$ and then splits into a positive and negative path, both of containing M vertices. The paths are both connected to the starting vertex of the next variable gadget, $b_{i+1}$, except for the last gadget which is connected to a vertex c. Now the clause gadgets are added, one vertex for each clause in f and one vertex d. The first clause gadget is connected to c and to a vertex in every variable gadget corresponding to a variable the clause contains. If the the clause is $(x \wedge y \wedge \neg z)$, the clause gadget will be connected to one vertex in the positive path of x, one vertex in the positive path of y and one vertex in the negative path of z. Those vertices in turn are connected to the next clause gadget, unless there are no further clause gadgets, then they're connected to d. A vertex in the variable gadgets can't be connected to more than two clause gadgets. This is possible because the paths in the variable gadgets each have M vertices, it ensures that no variable has more instances than distinct vertices in its corresponding path. The snout is fairly simple now, it's merely a sequence of Mn+2m vertices, with every vertex $a_i$ connected to $a_{i+1}$ and $a_{Mn+2m}$ connected to the first  vertex of the first variable gadget, $b_1$. 
+\newline
+H now is colored as follows: The path from the beginning to the end of the snout is given a sequence of distinct colors, the edge from $a_1$ to $a_2$ being colored $w_1$, the next edge being colored $w_2$ and so on until the edge to $b_1$ is colored $w_{Mn+2m+1}$. This will be the first part of the potentially repetitively colored path. Thus, the coloring of the variable gadget starts again with $w_1$, the k-th edge in variable gadget i being colored $w_{(M+1)(i-1)+k}$. \footnote{Manin actually claims it's $w_{M(i-1)+k}$, but as the variable gadgets each have M+1 edges, the last edge of gadget i will have the same color as the first edge of gadget i+1 and so every path through more than one variable gadget would be colored repetitively.} Now only the clause gadget through to vertex d are left. Starting from c, the edge between c and the first clause gadget is colored $w_{Mn}$, then the edges from the clause gadget to the variable gadgets are colored $w_{Mn+1}$ and so forth until the edges from the variable gadgets to d are colored $w_{Mn+2m+1}$. The construction is not yet complete, however, because for every $b_i$ with $1 \leq i$, there are paths containing the last edge of the positive path of variable gadget i-1 followed by the last edge of the negative path of variable gadget i-1. Both of course have the same color, so every path through more than one variable gadget would be colored repetitively. The solution here is to simulate a directed graph for the coloring by using "\textit{direction-determining colors}" \citep[p. 6]{Manin2008}. As every vertex is connected to at most 3 other vertices, the edges connected to that vertex need to have 3 different colors. So we need 3 sets of direction-determining colors. Every edge colored $w_i$ is now replaced with a path $a^j_ib^j_iw_ic^i_kd^i_k$ with i and k in {1, 2, 3}. This way, the coloring can changed so that no two edges with the same color share a vertex. The way these new edge look is shown in figure 10.
+\newline
+
 
 \newpage
 
@@ -172,6 +178,8 @@ Tree colorings
 Thue number bounds depending on the degree
 
 \section{Conclusion}
+
+\newpage
 \printbibliography
 
 \end{document}
