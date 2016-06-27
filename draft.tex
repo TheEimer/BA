@@ -25,6 +25,18 @@
 \newpage
 
 \section{Introduction}
+In 1906, Axel Thue showed the construction of an infinite word where no two adjacent parts are be the same using only three letters \citep{Thue1906}. This concept of nonrepetitiveness has since been applied to other fields, probably most successfully in graph theory. The nonrepetitiveness of graph colorings and the number of colors needed to construct nonrepetitive colorings have been a topic since Alon et. al. introduced the idea in 2002 \citep{Alon2002}. This thesis aims to give an overview over some results of the results, both in vertex- and edge-colorings. 
+\newline
+First, some general preliminaries in graph and complexity theory will be covered. 
+\newline
+Then, in the third section, the formal definition of nonrepetitiveness for graph colorings and the complexity of the corresponding decision problem will be shown. 
+\newline
+The fourth section is about edge-colorings, more specifically Manin's proof that the Thue Number problem is $\Pi^p_2$-complete \citep{Manin2008}. This proof will be examined in detail as it's probably the most important result for nonrepetitive edge-colorings as well as generally applicable, which isn't the case for most results specific to vertex-colorings.
+\newline
+Section five, therefore, is intended to be a bit of an overview over some relevant results when it comes to nonrepetitive vertex-colorings, though it certainly doesn't aim to be complete. The first part introduces two randomized algorithms, one for finding repetitive paths of a specific length and the other constructing a nonrepetitive coloring. After that, bounds for two classes of graphs that have received particular attention will be presented: planar graphs and trees. 
+\newline
+Finally, section six will mention other applications and variants of nonrepetitiveness and the Thue Number.
+\newpage
 \section{Preliminaries}
 \subsection{Graph Theory}
 
@@ -211,19 +223,39 @@ The P-gadget's structure is similar to that of a 7-Hypercube, save for the remov
 
 As the colors of the original graph G stayed the same and there is a path through each $C^i$ that can be matched by either $N^i$ or $P^i$, if $f$ is satisfiable, the square path from the tip of the snout to d exists just like it did in G. The more difficult question here is whether it's the only square path.
 
+\newpage	
 \section{The Thue chromatic number}
-\subsection{Complexity of the nonrepetitiveness of restricted problems}
+\subsection{Algorithms for vertex-colorings}
 
 Even though the complexity of the Thue chromatic number is still an open problem, some restricted versions have been found to have an upper bound. A relatively simple restriction is to limit the length of a possible square path. For any graph G(V, E) and a given path length 2k, checking G for a square path of length 2k takes $k^{O(k)} \cdot |V|^5 log |V|$ \citep{Marx2009}. This number is based on a randomized algorithm developed to find such paths. The first part, $k^{O(k)}$, represents the number of times the randomized part of the algorithm has to "guess" repetitive paths, that is to assign a label from {1, ..., 2k} to each vertex of G, until it succeeds. The probability for the assignment to be correct is $\frac{1}{2k^{2k}}$, so after trying $2k^{2k}$ assignments, every square path will have been found, leading to a duration of $k^{O(k)}$ for this part. The actual checking of the assignment happens in a directed graph D(U, A) constructed from G, that has directed path with a length of k vertices only if G has a repetitive path of 2k vertices. The vertices of D are a subset of V x V, D has at most $|V|^2$ vertices. D is constructed to be acyclic, so its longest directed path can be found in O(|A|). As D has at most $|V|^2$ vertices, correspondingly it has at most $|V|^4$ edges, so finding the longest path can be done in $|V|^4$. As this has to be done for every possible ending point of the path, so every vertex in V, the resulting time limit is $|V|^5$. The last part, $log |V|$, is the running time of the derandomization of the algorithm. 
 \newline
-A special case of bounded-length paths are so called \textit{star-free} colorings. A coloring is star-free if there are no repetitive paths of length 4 or less. This problem has been proven to be NP-complete \citep{Coleman1984}. 
+A special case of bounded-length paths are so called \textit{star-free} colorings. A coloring is star-free if there are no repetitive paths of length 4 or less. This problem has been proven to be NP-complete \citep{Coleman1984}.
 \newline
+An algorithm for constructing nonrepetitive colorings rather than finding repetitive ones was described in \citep{Haeupler2010}. It's an application of the asymmetrical Lovász local lemma which can be used to prove the existence of combinatorial structures. More specifically, it says that for some set of mutually independent variables $P = {P_1, P_2, ..., P_n}$, some set of undesirable or "bad" events $A = {A_1, A_2, ..., A_n}$ and any event $B$, with both $A$ and $B$ determined by a subset of $P$, there exists an assignment of probabilities to $P$ so that the probability for a desirable event is positive if for every element of $A$, its probability is smaller or equal to the product of its probability with the counter probabilities of all events B that are disjoint from it. Applied to nonrepetitive graph colorings, bad events would the existence of repetitive paths, so the probability for such a bad event A for a path P of length $2i$ with $i \geq 1$ to be repetitively colored is $\frac{1}{C^i}$, C being the amount of colors that can be used. As a $2i$ path can intersect a lot of other paths ($4ij\Delta^{2j}$ paths of length $2j$), A shares variables with just as many other events. Using the correct assignment of probabilities and $(2e^{16}+1)\Delta^2$, the condition is fulfilled. That means there is a nonrepetitive coloring or, to put it differently, the probability of no bad events occurring is greater than zero. If the condition also holds for a fixed "slack" $\epsilon$, so that $PR[A_i] \leq x(A_i) \Pi_{B \epsilon \Gamma(A_i)} (1-x(B))$, a Monte Carlo algorithm, a kind of randomized algorithm that may return an incorrect result with some probability, can be used to find one of these good assignments. As the condition depends on the number of colors used, increasing it is the simple solution. The algorithm works similarly to the one above, sampling a coloring and then verifying if any events in $A$ occur. The number of resamplings is in $O(\frac{n}{\epsilon^2}log\frac{n}{\epsilon^2})$, $\epsilon$ being the constant from before and n the size of the input, so the number of vertices in the graph in question, in this case. Again similarly to above, breadth-first-search though the graph is used to check whether any paths are colored nonrepetitively. The runtime to find a nonrepetitive vertex-coloring for a graph G with maximum degree $\Delta$ with $c\Delta^{2+\epsilon}$ colors is therefore in $O(|V|+|E|)$ for the search plus $O(\frac{|V|}{\epsilon^2}log\frac{|V|}{\epsilon^2})$ because of the number of samplings that might be needed. The failure probability of the algorithm is also important, of course: it's an inverse polynomial of the size of G that is arbitrarily small. As the algorithm and the theories behind it are relatively complex, this is only meant to be a short insight and is definitely not complete.
+
+\subsection{Planar graphs}
+
 A different way to make the problem more manageable, is to look at specific graphs or subgraphs. One type of graph especially interesting is the planar graph. A graph G is planar if its realization is homeomorphic to $R^2$. Realization means all vertices of G are represented by distinct points in $R^3$ and connected to each other by straight lines corresponding to the edges of G. If this realization lies in a single plane, the graph is planar \citep[p. 21]{Bollobas1998}. For such graphs, a lower bound of $\sigma(G) \leq 11$ and an upper bound of $\sigma(G) \geq O(log(n))$ are known \citep{Dujmovic2012}. If G is an outerplanar graph, so if it can be drawn so that all vertices are on the boundary of a face, one of the regions G separates the plane into, \citep[p. 36]{Bollobas1998}, $\sigma$(G) is known to be at most 12 \citep{Barat2007}. Even if G is not an outerplanar graph, there is an upper bound for so called facial nonrepetitive colorings, meaning that every path on the boundary of a face is colored nonrepetitively. For planar graphs, the upper bound is 24 colors \citep{Barat2013} and 16 for hamiltonian planar graphs \citep{Harant2011}. 
 
-\subsection{Colorings for trees}
+\subsection{Trees}
 
+Trees are another class of graphs for which good bounds on the Thue chromatic number exist. In fact, \citep{Bresar2007} proved that every three is nonrepetitively colorable by 4 colors. For smaller trees, specifically those with a degree of four or less, this bound is at most three. The degree $rad(T)$ of a tree T is the maximum distance a vertex $u$ has to any other vertex. The condition of the maximum distance being four also limits the maximum number of levels to five. Coloring the vertices according to their distance from the root with $c \epsilon {0, 1, 2}$ and $c_0 = c_3$ as well as $c_1 = c_4$ will result in a vertex-coloring that is nonrepetitive \citep{Bresar2007}. As the maximum distance from any vertex is at most four, no open path can be longer than five vertices. A square path would have to either visit two vertices of the same distance from the root directly following one another, visit a vertex of distance zero or one and then one of distance three or four, respectively, or have length four. The two former possibilities can be excluded as they contradict the structure of trees. So are square paths of length four possible? Such a path $p$ would have the structure $p=c_ic_jc_ic_j$, as two vertices of the same color can't follow each other. This can't work either, though, as $p$ starts at level $i$ (or $i+2$), then proceeds to level $j$ (or $j+2$, respectively) an now needs to connect to another vertex of either level $i$ or $i+2$. It' only possible for $p$ to visit the level it hasn't started on to avoid visiting a vertex twice, so it has now moved through three levels. That means it contains $c_2$ either as first color (in this case it would have visited vertex one again for vertex three) or the second color, which would mean that now the path would have to go back to the second vertex as $c_2$ is only present in level two. Therefore a square path of length four can't exist and the coloring is nonrepetitive.
+\newline
+Even if $T$ has a degree greater than four, it at least has a subgraph which can be colored nonrepetitively with three colors \citep{Bresar2007}.
+
+\newpage
 \section{Other Thue type problems}
+As mentioned before, graph colorings are not the only are in which the concept of nonrepetitiveness can be applied. An example of this is the real line: a coloring of the real line is nonrepetitive if there are no adjacent intervals that are colored the same. For this, only two colors are needed. One possibility to color the real line nonrepetitively is to color all points x for which $ln|x|$ is rational with one color and every other point with the other color\citep{Grytczuk2008}. 
+\newline
+*Prime factors
+\newline
+*Anagrams
+\newline
+*Pattern avoidance
+\newline
+*Thue choosability
 
+\newpage
 \section{Conclusion}
 
 Every graph G has a subdivision H with $\pi$(H) <= 4 \citep{Barat2008}
