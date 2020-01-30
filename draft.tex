@@ -27,7 +27,7 @@
 \bibliography{library.bib}
 \begin{document}
 \renewcommand{\figurename}{Fig.}
-\includepdf[pages=-]{deckblatt.pdf}
+%\includepdf[pages=-]{deckblatt.pdf}
 \thispagestyle{empty}
 \newpage
 \tableofcontents
@@ -228,9 +228,9 @@ through the second part of $H$ without having to visit two different vertices wi
 \begin{minipage}[c]{0.3\linewidth}
 	\includestandalone{pics/ex_2}
 \end{minipage}
-\begin{minipage}[c]{0.8\linewidth}
-	\includegraphics[scale=0.3]{pics/ex_marx.png}
-\end{minipage}
+%\begin{minipage}[c]{0.8\linewidth}
+%	\includegraphics[scale=0.3]{pics/ex_marx.png}
+%\end{minipage}
 \begin{minipage}[t]{0.2\linewidth}
 	\caption{$F'$}
 \end{minipage}
@@ -258,18 +258,18 @@ Deciding whether an edge-coloring is nonrepetitive is coNP-complete \citep{Manin
 The corresponding problem for edge-colorings is in the same complexity class and the proof is somewhat similar. They are, however, not directly related and one can't be inferred from the other \citep{Marx2009}. The reason Manin's proof might seem familiar is that it's also based on the idea of a path with two parts that are colored identically to form the only possible repetitive colored path. The problem he reduces from is $3SAT$, corresponding to which a graph $G$ is constructed. $G$ has a so called snout, a sequence of vertices and edges with the sole purpose of providing the colors for the second part to mimic. The second part of $G$ then consist of a variable gadget for each variable that splits into a positive and negative path variant and a clause gadget for each clause. The clause gadgets are connected to the variable gadgets in the same way the variables occur in the clause; if a variable is negated, the clause gadget is connected to a vertex in the negative path of the variable gadget, if it isn't, the clause gadget is connected to the positive path. As a result, the only way to pass through the second half of G with an open path, is to find an assignment satisfying the formula, traversing the variable gadgets opposite to that assignment and then the clause gadgets corresponding to it. If there is no satisfying assignment, at least one of the edges from the clause gadgets will need to pass through a vertex in the variable gadget that has already been visited. Thus a coloring in $G$ is only repetitive if the $3SAT$ problem it's constructed from is satisfiable - and nonrepetitive if it isn't.
 \newline
 To construct $H$, a few numbers from the $3SAT$ problem $f$ are needed. Let $M$ be the maximum of the  number of instances of all variables, meaning the number of instances of the most common variable with $x$ and and $\neg x$ being counted separately, $n$ the number of variables and $m$ the number of clauses in $f$. First, $n$ variable gadgets with the following structure are added: each variable gadget begins with a vertex $b_i$ and then splits into a positive and negative path, both of them containing $M$ vertices. The paths are both connected to the starting vertex of the next variable gadget, $b_{i+1}$, except for the last gadget which is connected to a vertex $c$. Now the clause gadgets are added, one vertex for each clause in $f$ and one vertex $d$. The first clause gadget is connected to $c$ and to a vertex in every variable gadget corresponding to a variable the clause contains. If the clause is $(x \vee y \vee \neg z)$, the clause gadget will be connected to one vertex in the positive path of $x$, one vertex in the positive path of $y$ and one vertex in the negative path of $z$. Those vertices in turn are connected to the next clause gadget, unless there are no further clause gadgets, then they're connected to $d$. A vertex in the variable gadgets can't be connected to more than two clause gadgets. This is possible because the paths in the variable gadgets each have $M$ vertices, ensuring that no variable has more instances than distinct vertices in its corresponding path. The snout is fairly simple now, it's merely a sequence of $(M+1)n+2m+1$ \footnote{In \citep{Manin2008} the number is $Mn+2m$, however, the snout is too small this way} vertices, with every vertex $a_i$ connected to $a_{i+1}$ and $a_{(M+1)n+2m+1}$ connected to the first  vertex of the first variable gadget, $b_1$. An example for $f(x, y, z) = (x \vee y) \wedge \neg x \wedge \neg y$ is given in fig. 10. 
-\begin{figure}[h]
-	\includestandalone{pics/ex_3}
-	\caption{$G$ constructed from $f$ \\edge gadgets are highlighted}
-\end{figure}
+%\begin{figure}[h]
+%	\includestandalone{pics/ex_3}
+%	\caption{$G$ constructed from $f$ \\edge gadgets are highlighted}
+%\end{figure}
 \newline	
 $H$ now is colored as follows: The path from the beginning to the end of the snout is given a sequence of distinct colors, the edge from $a_1$ to $a_2$ being colored $w_1$, the next edge being colored $w_2$ and so on until the edge to $b_1$ is colored $w_{(M+1)n+2m+1}$ \footnote{The number of edges in the snout equals the number of vertices, not more as assumed in \citep{Manin2008}}. This will be the first part of the potentially repetitively colored path. Thus, the coloring of the variable gadget starts again with $w_1$, the $k$-th edge in variable gadget $i$ being colored $w_{(M+1)(i-1)+k}$. \footnote{Again the numbering is off in \citep{Manin2008}} Now only the clause gadgets through to vertex $d$ are left. Starting from $c$, the edge between $c$ and the first clause gadget is colored $w_{(M+1)n}$, then the edges from the clause gadget to the variable gadgets are colored $w_{Mn+1}$ and so forth until the edges from the variable gadgets to $d$ are colored $w_{(M+1)n+2m+1}$. 
 \newline
 The construction is not yet complete, however, because for every $b_i$ with $1 \leq n$, there are paths containing the last edge of the positive path of variable gadget $i-1$ followed by the last edge of the negative path of variable gadget $i-1$. Both of course have the same color, so there would always be a very simple repetitively colored path in $G$. The solution here is to simulate a directed graph for the coloring by using "\textit{direction-determining colors}" \citep[p. 6]{Manin2008}. As every vertex is connected to at most 3 other vertices (in the clause gadgets), the edges connected to that vertex need to have 3 different colors. So we need 3 sets of direction-determining colors. Every edge outside the snout colored $w_i$ is now replaced with a path $a^j_ib^j_iw_ic^i_kd^i_k$ with $i$ and $k$ in $\{ 1, 2, 3 \}$. This way, the coloring can changed so that no two edges with the same color share a vertex. The colors of the snout can be chosen to match the rest of the path by introducing new subgraphs replacing an edge, so the way the coloring works is not affected at all. These new subgraphs look like the one in figure 11.
-\begin{figure}[h]
-	\includegraphics[scale=0.3]{/home/ted/git/reveal.js/Bilder_ba/1_7snout.png}
-	\caption{The subgraph replacing an edge colored $y_j$ in the snout of $G$}
-\end{figure}
+%\begin{figure}[h]
+%	\includegraphics[scale=0.3]{/home/ted/git/reveal.js/Bilder_ba/1_7snout.png}
+%	\caption{The subgraph replacing an edge colored $y_j$ in the snout of $G$}
+%\end{figure}
 \newline
 As the direction-determining colors don't change the sequence of colors in the original coloring and can be copied by the snout to equal the coloring of any path through the variable and edge gadgets, so the coloring of the second part of $H$ will be examined with just the original colors $w_i$. Every path's coloring through the whole second part can be matched by the snout and as the path traversing the snout from beginning to end is an open path, the variable- and edge gadgets are the deciding factor. Each variable gadget has to be traversed in order to get to the edge gadgets and ultimately to the vertex $d$. Because of that, one path of each variable gadget can't be visited again by any edges from the clause gadgets. To put it differently, for each variable, every open path from $c$ to $d$ can only visit either the positive or the negative path of each variable gadget. This means that the assignment for all variables is the same in every clause gadget. If there is a path like this actually connecting $b_1$ to $d$, it must be a satisfying assignment for $f$, because the clause gadgets are only connected to the paths in the variable gadgets satisfying them. If $f$ is not satisfiable, at least two clauses require each a different variable assignment, which is  reflected in $H$ as two edges from clause gadgets to different parts of the same variable gadget both needing to be traversed - and thus forming a path that is no longer open. A square path can have no different form; limiting the path to the snout doesn't work because every edge there has a different color, limiting the path to the variable gadgets doesn't work because with the direction determining colors in mind, they can only be traversed in one direction and again, the colors in the variable gadgets won't repeat themselves. The problem remains when using only the edge gadgets or combining edge and variable gadgets. Just the snout and variable gadgets also can't form a square path, as the colors in the variable gadgets are at the beginning of the snout and to reach the variable gadgets, all the colors in the edge gadgets would have to be traversed first. Thus, there is no other possible square path than the one through all three elements of $H$, so $H$ contains a square path only if $f$ is satisfiable.
 \newline
@@ -320,23 +320,23 @@ Now $H$ has become quite big, with a lot of 7-Hypercubes added and them being he
 \subsubsection{Subgraphs of $H$}
 
 All of the gadgets used, except for the consistency gadgets, are based on Hypercubes although the $C$-, $N$- and $P$-gadgets have been modified. The $C$- and $N$-gadgets are each a sequence of Hypercubes connected to form one structure. The $C$-gadget (fig. 12) is made up of a 2-Hypercube, two single vertices that can be viewed as a 1-Hypercube each and a 3-Hypercube.
-\begin{figure}[h]
-\includegraphics[scale=0.5]{/home/ted/git/reveal.js/Bilder_ba/cgadget.png} 
-\caption{A C-gadget \citep{Manin2008}}
-\end{figure}
+%\begin{figure}[h]
+%\includegraphics[scale=0.5]{/home/ted/git/reveal.js/Bilder_ba/cgadget.png} 
+%\caption{A C-gadget \citep{Manin2008}}
+%\end{figure}
 \newline
 Some vertices have added edges that would not exist in a normal Hypercube. Their purpose is to elevate the degree of these vertices. The $N$-gadget is somewhat similar, but consists of a 3-Hypercube connected to a 4-Hypercube (fig. 13). These plumes in The $C$- and $N$-gadgets will be used later to restrict the possible colorings in these gadgets, as they will be for the $P$-gadget.
-\begin{figure}[h]
-\includegraphics[scale=0.5]{/home/ted/git/reveal.js/Bilder_ba/ngadget.png} 
-\caption{An N-gadget \citep{Manin2008}}
-\end{figure}
+%\begin{figure}[h]
+%\includegraphics[scale=0.5]{/home/ted/git/reveal.js/Bilder_ba/ngadget.png} 
+%\caption{An N-gadget \citep{Manin2008}}
+%\end{figure}
 \newline
 The $P$-gadget is a 7-Hypercube with several modifications. First, its dimensions are labeled: the dimensions $a$, $b$ and $ab$ cover the distance from the vertex $u_0$ to $v_0$. The dimensions $c$, $d$, $ac$ and $ad$ then span the distance between the vertex $u_0$ and the vertex $v_1$ as they have been defined above. The edges from $v_1$ in the dimensions $c$, $d$, $ac$ and $ad$ are removed. Then, two vertices, $u_{-1}$ and $u_{-2}$, are defined. To reach $u_{-1}$, the dimensions $a$, $c$ and $ac$ have to be traversed from $u_0$, for $u_{-2}$ the dimensions $a$, $d$ and $ad$. Each $2^m-2$ edges are added to $u_{-1}$ and $u_{-2}$ and from the vertices in dimensions $c$ and $d$ adjacent to $u_{-1}$ and $u_{-2}$, all edges to $b$ are removed. The added edges are called the plume of these vertices. Parts of the $P$-gadget now still look like a normal Hypercube, but a few of the dimensions have been altered (see fig. 14).
 \newline
-\begin{figure}
-\includestandalone{pics/pgadget}
-\caption{Key vertices of the $P$-gadget and their connections}
-\end{figure}
+%\begin{figure}
+%\includestandalone{pics/pgadget}
+%\caption{Key vertices of the $P$-gadget and their connections}
+%\end{figure}
 This Hypercube part of the $P$-gadget, as well as the $C$- and $N$-gadgets, can be colored nonrepetitively by exactly seven colors each. The reason for this is that they're all based on Hypercubes and that an $n$-Hypercube can be colored nonrepetitively with $n$ colors. The 7-Hypercubes and the $P$-gadget's Hypercube portion are of course 7-Hypercubes. The $C$- and $N$-gadget consist of smaller Hypercubes whose dimensions add up to seven. Coloring them works in the following way: Hypercubes can be imagined as square or diamond like structures stacked upon and connected to each other, with each diamond connected to $n-2$ dimensions (each one except the two it's already in). Each of these diamonds will be colored with the same two colors. What's left are the connections between the diamonds and the other dimensions. The edges to different dimensions from each diamond have $n-2$ distinct colors, one for every dimension. Every path containing a square path would have to contain an even number of edges from every dimension it passed. The vertices in a Hypercube, however, are connected to exactly one vertex of each dimension, the one that differs in exactly one place from its own labeling. With each change to or from dimension $i$ meaning a change in the $i$-th place of the vertex labels, passing through dimension $i$ an even number of times ends with the $i$-th place being changed from 0 to 1 or 1 to 0 an even number of times - so the $i$-th place in the labeling is the same for the starting and end vertex. As the square portion of a square path must run through every dimension it visited an even number of times, the starting and end vertex must have the same labeling, thus forming a circle. 
 \newline
 To color the $C$- and $N$-gadgets, this technique is used with distinct sets of colors for all their different parts. The consistency gadgets, as they're Cliques, each need a lot more colors, $2^m-1$ as shown in \citep{Alon2002}.
